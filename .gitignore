@@ -22,3 +22,6 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# 伺服器架構文件只保留在本機，不推上公開儲存庫
+/docs/server-architecture.md
