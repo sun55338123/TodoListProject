@@ -151,6 +151,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
    * 單一方法：`php artisan test --filter=test_the_application_returns_a_successful_response`
 4. 程式碼格式：`vendor/bin/pint`（只檢查不修改：`vendor/bin/pint --test`）。
 5. 前端建置：`npm run build`。
+6. 部署（server：Ubuntu 24.04、Nginx、PHP 8.2 FPM、Node.js 24，網址 `https://todo.do-work.dev`，專案路徑 `/var/www/todo_list/html/TodoListProject`，檔案擁有者 `www-data`）：
+   * 前端在 server 建置：`sudo -u www-data env npm_config_cache=/var/www/todo_list/.npm-cache npm ci`，再執行同樣前綴的 `npm run build`。www-data 的家目錄 `/var/www` 無法寫入，因此必須指定 npm 快取目錄。
+   * 備用方式：`.\scripts\deploy-frontend.ps1 -KeyPath "金鑰路徑"`（本機建置、打包、上傳並替換 server 的 `public/build`）。`-SkipUpload` 只建置與打包。
+   * server 上所有 `composer`、`php artisan`、`npm` 指令都以 `sudo -u www-data` 執行，避免產生 root 擁有的檔案。
+   * 修改 `.env` 後必須執行 `php artisan config:cache` 才會生效。
+   * `.ps1` 檔案必須存成 UTF-8 with BOM。Windows PowerShell 5.1 會把沒有 BOM 的 UTF-8 檔案當成系統編碼讀取，中文會變成亂碼並造成語法錯誤。
 
 ## 回答規則
 
